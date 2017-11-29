@@ -11,6 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+// 用户中心
+Route::group(['prefix' => '/user'], function () {
+    Route::get('/', 'UserController@index')->name('user_home');
+    Route::get('/admin', 'UserController@admin')->name('user_admin');
 });

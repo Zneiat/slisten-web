@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace Slisten\Http\Controllers\Auth;
 
-use App\User;
-use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Slisten\Models\User;
+use Slisten\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -11,7 +14,7 @@ class RegisterController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
-    | Register Controller
+    | 注册 控制器
     |--------------------------------------------------------------------------
     |
     | This controller handles the registration of new users as well as their
@@ -23,16 +26,14 @@ class RegisterController extends Controller
     use RegistersUsers;
 
     /**
-     * Where to redirect users after registration.
+     * 注册成功重定向
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/user';
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * @inheritdoc
      */
     public function __construct()
     {
@@ -40,7 +41,7 @@ class RegisterController extends Controller
     }
 
     /**
-     * Get a validator for an incoming registration request.
+     * 表单验证器
      *
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
@@ -48,24 +49,60 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,name',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
 
     /**
-     * Create a new user instance after a valid registration.
+     * 表单验证成功后创建新的用户
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \Slisten\Models\User|mixed
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+        $user = User::create([
+            'name'     => $data['username'],
+            'email'    => $data['email'],
             'password' => bcrypt($data['password']),
+            'role'     => User::ROLE_USER,
         ]);
+        
+        return $user;
+    }
+    
+    /**
+     * 处理申请的注册申请
+     *
+     * @inheritdoc
+     */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+        
+        event(new Registered($user = $this->create($request->all())));
+        
+        // $this->guard()->login($user); // 注册后随即登录
+        
+        return $this->registered($request, $user);
+    }
+    
+    /**
+     * 注册成功 响应
+     *
+     * @inheritdoc
+     */
+    protected function registered(Request $request, $user)
+    {
+        $msg = ['success' => true, 'status' => '注册成功！<br>请查阅我们发送的邮件并激活帐号'];
+        
+        if ($request->expectsJson()) {
+            // 响应 Json
+            return response()->json($msg, 200);
+        }
+    
+        return back()->with($msg);
     }
 }

@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace Slisten\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use Slisten\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
-    | Login Controller
+    | 登录 控制器
     |--------------------------------------------------------------------------
     |
     | This controller handles authenticating users for the application and
@@ -21,19 +22,62 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
+     * 登录成功重定向
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/user';
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * @inheritdoc
      */
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+    
+    /**
+     * 处理请求数据为一个可用凭证
+     *
+     * @inheritdoc
+     */
+    protected function credentials(Request $request)
+    {
+        $field = filter_var($request->get($this->username()), FILTER_VALIDATE_EMAIL) ? $this->username() : 'name';
+        
+        return [
+            $field => $request->get($this->username()),
+            'password' => $request->input('password'),
+        ];
+    }
+    
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @inheritdoc
+     */
+    public function username()
+    {
+        return 'email';
+    }
+    
+    /**
+     * 登录 成功响应
+     *
+     * @inheritdoc
+     */
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+        
+        $this->clearLoginAttempts($request);
+    
+        if ($request->expectsJson()) {
+            // 响应 Json
+            return response()->json($this->guard()->user(), 200);
+        }
+        
+        return $this->authenticated($request, $this->guard()->user())
+            ?: redirect()->intended($this->redirectPath());
     }
 }

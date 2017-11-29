@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Providers;
+namespace Slisten\Providers;
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +14,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        /** @link http://d.laravel-china.org/docs/5.4/migrations#索引长度--MySQL--MariaDB */
+        Schema::defaultStringLength(191);
+    
+        /** @link http://d.laravel-china.org/docs/5.4/blade#拓展-Blade */
     }
 
     /**
@@ -23,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        /** @link https://packagist.org/packages/barryvdh/laravel-ide-helper */
         if ($this->app->environment() !== 'production') {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }
