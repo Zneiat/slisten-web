@@ -5,7 +5,7 @@ namespace Slisten\Http\Controllers\Auth;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Slisten\Models\User;
+use Slisten\User;
 use Slisten\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -59,7 +59,7 @@ class RegisterController extends Controller
      * 表单验证成功后创建新的用户
      *
      * @param  array  $data
-     * @return \Slisten\Models\User|mixed
+     * @return \Slisten\User|mixed
      */
     protected function create(array $data)
     {

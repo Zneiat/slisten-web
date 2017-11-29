@@ -30,7 +30,7 @@ return [
     ],
 
     'stripe' => [
-        'model' => Slisten\Models\User::class,
+        'model' => Slisten\User::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],

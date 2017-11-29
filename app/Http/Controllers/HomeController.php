@@ -3,6 +3,8 @@
 namespace Slisten\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Slisten\Comment;
+use Slisten\Post;
 
 class HomeController extends Controller
 {
@@ -13,7 +15,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**

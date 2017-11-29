@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => Slisten\Models\User::class,
+            'model' => Slisten\User::class,
         ],
 
         // 'users' => [
