@@ -16,18 +16,19 @@
     <link href="{{ asset('css/app.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/slisten.css') }}" rel="stylesheet">
     <link href="{{ asset('css/material-design-iconic-font.min.css') }}" rel="stylesheet">
+    @stack('styles')
 
     <!--[if lte IE 9]><script>window.location.href='/static/upgrade-browser.html';</script><![endif]-->
 </head>
 <body>
     <!-- Loading Layer -->
-    <div class="loading-layer">
+    <div class="loading-layer" style="display: none;">
         <div class="loading-spinner"><svg viewBox="25 25 50 50"><circle cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle></svg></div>
         <div class="loading-layer-text"></div>
     </div>
 
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
+        <nav class="navbar navbar-app navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
 
@@ -41,42 +42,35 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        {{ config('app.name', 'Slisten') }}
                     </a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        <li class="{{ nav_route_active_class('home') }}"><a href="{{ route('home') }}">首页</a></li>
+                        <li class="{{ nav_route_active_class('user_write') }}"><a href="{{ route('user_write') }}">写作</a></li>
+                        {{--<li class="{{ nav_route_active_class('home') }}"><a href="{{ route('home') }}">答复</a></li>
+                        <li class="{{ nav_route_active_class('login') }}"><a href="{{ route('home') }}">说明</a></li>--}}
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('login') }}">登录</a></li>
-                            <li><a href="{{ route('register') }}">注册</a></li>
+                            <li class="{{ nav_route_active_class('login') }}"><a href="{{ route('login') }}">登录</a></li>
+                            <li class="{{ nav_route_active_class('register') }}"><a href="{{ route('register') }}">注册</a></li>
                         @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                            <li class="{{ nav_route_active_class('user_home') }}"><a href="{{ route('user_home') }}">{{ Auth::user()->name }}</a></li>
+                            <li>
+                                <a href="#" onclick="document.getElementById('logout-form').submit();return false;">
+                                    注销
                                 </a>
 
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ route('user_home') }}">用户中心</a></li>
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            注销
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
                             </li>
                         @endguest
                     </ul>
@@ -90,5 +84,6 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.min.js') }}"></script>
     <script src="{{ asset('js/slisten.js') }}"></script>
+    @stack('scripts')
 </body>
 </html>

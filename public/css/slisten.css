@@ -5,13 +5,42 @@ html {
 body {
     font-family: "Helvetica Neue", "PingFangSC-Light", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
     color: #535f6f;
-    background-color: #f5f8fb;
-    min-width: 1200px;
+    background-color: #FFF;
 }
 
 a {
     text-decoration: none !important;
     transition: all .2s ease-in-out;
+}
+
+label {
+    color: #000;
+}
+
+.form-control {
+    box-shadow: none;
+    border-color: #c9d8db;
+    border-radius: 0;
+    transition: border-color .2s;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #0083ff;
+}
+
+.has-error .form-control {
+    border-color: #f44336;
+    box-shadow: none;
+}
+
+.has-error .checkbox, .has-error .checkbox-inline, .has-error.checkbox-inline label, .has-error.checkbox label, .has-error .control-label, .has-error .help-block, .has-error .radio, .has-error .radio-inline, .has-error.radio-inline label, .has-error.radio label {
+    color: #f44336;
+}
+
+.has-error .form-control:focus {
+    border-color: #f44336;
+    box-shadow: none;
 }
 
 /* anim */
@@ -150,4 +179,180 @@ a {
     80%,90% {
         stroke: #ffc107
     }
+}
+
+/* navbar */
+.navbar-app {
+    background-color: #FFF;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    border-bottom: 0;
+}
+
+.navbar-app a {
+    color: #121212;
+}
+
+.navbar-app .navbar-toggle .icon-bar {
+    background-color: #121212;
+}
+
+.navbar-app .navbar-brand {
+    color: #0083ff;
+    padding-right: 25px;
+}
+
+.navbar-app .nav > li.active > a,
+.navbar-app .nav> li > a:focus,
+.navbar-app .nav> li > a:hover {
+    text-decoration: none;
+    background-color: #f7f7f7;
+}
+
+/* home */
+.home-wrap-app {
+    width: 100%;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-height: calc(100vh - 180px);
+}
+
+.home-actions-app {display: flex;}
+
+.home-action-item-app {
+    display: block;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 1px;
+    padding: 20px 0;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.home-action-item-app:hover {
+}
+
+.home-action-item-app > i {
+    color: #455A64;
+    font-size: 5rem;
+    transition: font-size 0.2s, color 0.2s;
+    display: block;
+    line-height: 10rem;
+}
+
+.home-action-item-app:hover > i {
+    color: #F44336;
+    font-size: 5.3rem;
+}
+
+.home-actions-app :nth-child(1) .home-action-item-app:hover > i {
+    color: #CDDC39;
+}
+
+.home-actions-app :nth-child(1) .home-action-item-app:hover .home-action-label {
+    background-color: #CDDC39;
+}
+
+.home-actions-app :nth-child(2) .home-action-item-app:hover > i {
+    color: #ff77ac;
+}
+
+.home-actions-app :nth-child(2) .home-action-item-app:hover .home-action-label {
+    background-color: #ff77ac;
+}
+
+.home-actions-app :nth-child(3) .home-action-item-app:hover > i {
+    color: #2196F3;
+}
+
+.home-actions-app :nth-child(3) .home-action-item-app:hover .home-action-label {
+    background-color: #2196F3;
+}
+
+.home-action-label {
+    display: block;
+    line-height: 4rem;
+    font-size: 1.8rem;
+    color: #455A64;
+    transition: background-color 0.2s;
+    padding: 0 10px;
+}
+
+.home-action-item-app:hover .home-action-label {
+    color: #FFF;
+    background: #455A64;
+}
+
+/* .panel-app */
+.panel-app {
+    box-shadow: none;
+}
+
+.panel-app .panel-title-line {
+}
+
+.panel-app .panel-title-line > .title {
+    line-height: 70px;
+    margin: 0 auto;
+    font-size: 23px;
+    background: #fff;
+    color: #000;
+    border-left: 2px solid #000;
+    padding-left: 20px;
+}
+
+.panel-app .panel-body {
+    padding: 0;
+    padding-top: 10px;
+}
+
+/* .auth-form-app */
+.auth-form-app {}
+
+.auth-form-app .form-control {
+    letter-spacing: 0.05em;
+    transition: border-color .2s;
+    color: #000;
+}
+
+.auth-form-app .form-control:focus {
+    border-color: #000;
+}
+
+.auth-form-app .form-control::-webkit-input-placeholder {
+  color: #455A64;
+}
+
+.auth-form-app .form-control::-moz-placeholder {
+  color: #455A64;
+}
+
+.auth-form-app .form-control:-ms-input-placeholder {
+  color: #455A64;
+}
+
+.auth-form-app .submit-auth-btn {
+    cursor: pointer;
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.091em;
+    border: 1px solid #000;
+    height: 35px;
+    padding: 0 25px;
+    text-align: center;
+    color: #455A64;
+    background-color: transparent;
+    border-color: #c9d8db;
+    outline: none;
+    transition: background-color .2s;
+}
+
+.auth-form-app .submit-auth-btn:hover {
+    background: #000;
+    color: #FFF;
+    border-color: #000;
 }

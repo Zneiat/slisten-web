@@ -18,5 +18,8 @@ Auth::routes();
 // 用户中心
 Route::group(['prefix' => '/user'], function () {
     Route::get('/', 'UserController@index')->name('user_home');
+    Route::get('/write', 'UserController@showWriteForm')->name('user_write');
+    Route::post('/write', 'UserController@write');
+    
     Route::get('/admin', 'UserController@admin')->name('user_admin');
 });

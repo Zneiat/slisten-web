@@ -50,7 +50,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'username' => 'required|string|max:255|unique:users,name',
-            'email' => 'required|string|email|max:255|unique:users',
+            /*'email' => 'required|string|email|max:255|unique:users',*/
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -65,7 +65,7 @@ class RegisterController extends Controller
     {
         $user = User::create([
             'name'     => $data['username'],
-            'email'    => $data['email'],
+            'email'    => '', // $data['email']
             'password' => bcrypt($data['password']),
             'role'     => User::ROLE_USER,
         ]);
@@ -84,7 +84,7 @@ class RegisterController extends Controller
         
         event(new Registered($user = $this->create($request->all())));
         
-        // $this->guard()->login($user); // 注册后随即登录
+        $this->guard()->login($user); // 注册后随即登录
         
         return $this->registered($request, $user);
     }
@@ -96,7 +96,7 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        $msg = ['success' => true, 'status' => '注册成功！<br>请查阅我们发送的邮件并激活帐号'];
+        $msg = ['success' => true, 'status' => '注册成功', 'user' => $user];
         
         if ($request->expectsJson()) {
             // 响应 Json

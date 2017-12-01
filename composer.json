@@ -30,7 +30,10 @@
         ],
         "psr-4": {
             "Slisten\\": "app/"
-        }
+        },
+        "files": [
+            "app/Http/Helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

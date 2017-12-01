@@ -4,8 +4,6 @@
 $(document).ready(function () {
     if (!app.checkRequirements())
         return;
-
-    app.loadingLayer.hide();
 });
 
 var app = {

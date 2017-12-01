@@ -2,19 +2,26 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">主页</div>
-
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    <h2 style="text-align: center">Hello World</h2>
+    <div class="home-wrap-app">
+        <div class="col-md-8">
+            <div class="home-actions-app row">
+                <div class="col-md-4">
+                    <a class="home-action-item-app" href="{{ route('user_write') }}">
+                        <i class="zmdi zmdi-edit"></i>
+                        <span class="home-action-label">写作</span>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a class="home-action-item-app">
+                        <i class="zmdi zmdi-comments"></i>
+                        <span class="home-action-label">答复</span>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a class="home-action-item-app">
+                        <i class="zmdi zmdi-help"></i>
+                        <span class="home-action-label">说明</span>
+                    </a>
                 </div>
             </div>
         </div>

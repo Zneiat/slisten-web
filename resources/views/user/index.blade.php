@@ -14,7 +14,9 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    @foreach ($posts as $post)
+                        {{ $post->id }}<br/>{{ $post->content }}<hr/>
+                    @endforeach
                 </div>
             </div>
         </div>
