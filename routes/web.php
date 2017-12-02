@@ -20,6 +20,5 @@ Route::group(['prefix' => '/user'], function () {
     Route::get('/', 'UserController@index')->name('user_home');
     Route::get('/write', 'UserController@showWriteForm')->name('user_write');
     Route::post('/write', 'UserController@write');
-    
-    Route::get('/admin', 'UserController@admin')->name('user_admin');
+    Route::get('/post-view/{postId}', 'UserController@postView')->name('post_view')->where(['postId' => '[0-9]+']);
 });

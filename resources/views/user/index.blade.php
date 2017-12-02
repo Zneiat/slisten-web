@@ -1,22 +1,29 @@
 @extends('layouts.app')
 
+@section('title', '答复')
+
 @section('content')
     <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+        <div class="col-md-10">
+            <div class="panel panel-app">
+                <div class="panel-title-line"><span class="title">答复</span></div>
 
                 <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+                    <div class="post-list">
+                        @foreach ($posts as $post)
+                            <div class="post-item" data-id="{{ $post->id }}">
+                                <div class="post-short-content">
+                                    {!! str_limit(strip_tags($post->contentDecrypted), $limit = 150, $end = '...') !!}
+                                </div>
+                                <div class="post-actions">
+                                    <a href="{{ route('post_view', ['id' => $post->id]) }}" target="_blank" class="btn-app post-read-more-btn">全文阅览</a>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
 
-                    @foreach ($posts as $post)
-                        {{ $post->id }}<br/>{{ $post->content }}<hr/>
-                    @endforeach
+                    {{ $posts->links() }}
                 </div>
             </div>
         </div>

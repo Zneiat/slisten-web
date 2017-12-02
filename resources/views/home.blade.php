@@ -8,11 +8,11 @@
                 <div class="col-md-4">
                     <a class="home-action-item-app" href="{{ route('user_write') }}">
                         <i class="zmdi zmdi-edit"></i>
-                        <span class="home-action-label">写作</span>
+                        <span class="home-action-label">倾诉</span>
                     </a>
                 </div>
                 <div class="col-md-4">
-                    <a class="home-action-item-app">
+                    <a class="home-action-item-app" href="{{ route('user_home') }}">
                         <i class="zmdi zmdi-comments"></i>
                         <span class="home-action-label">答复</span>
                     </a>

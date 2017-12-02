@@ -4,6 +4,8 @@ namespace Slisten\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\UnauthorizedException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -48,6 +50,27 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof \HttpException) {
+            $httpCode = $exception->getStatusCode();
+            $situations = [
+                404 => [
+                    'title' => 'Page Not Found',
+                    'msg'   => ' (;ﾟДﾟi|!)  迷失在了暗黑之林...'
+                ],
+                403 => [
+                    'title' => 'Forbidden',
+                    'msg'   => '(ﾉﾟ∀ﾟ)ﾉ 哎呀... 无权访问...'
+                ],
+                500 => [
+                    'title' => 'Internal Server Error',
+                    'msg'   => '(▼ヘ▼#) 程序意外地生气啦...'
+                ],
+            ];
+    
+            if (!empty($situations[$httpCode]))
+                return response()->view('error', $situations[$httpCode], $httpCode);
+        }
+        
         return parent::render($request, $exception);
     }
 }

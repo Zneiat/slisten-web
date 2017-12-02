@@ -10,12 +10,14 @@ class Post extends Model
     const TYPE_DEFAULT = 10;
     
     protected $attributes = [
+        'sign'   => '',
         'status' => self::STATUS_DEFAULT,
-        'type' => self::TYPE_DEFAULT,
+        'type'   => self::TYPE_DEFAULT,
     ];
     
     protected $fillable = [
         'content',
+        'sign',
         'user_id',
         'user_id',
         'status',
@@ -35,5 +37,14 @@ class Post extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    
+    public function getContentDecryptedAttribute()
+    {
+        try {
+            return decrypt($this->content);
+        } catch (\Exception $e) {
+            return $this->content;
+        }
     }
 }

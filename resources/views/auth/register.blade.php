@@ -1,9 +1,11 @@
 @extends('layouts.app')
 
+@section('title', '注册')
+
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-4 col-md-offset-4">
+        <div class="col-md-4">
             <div class="panel panel-app">
                 <div class="panel-title-line"><span class="title">注册</span></div>
 
@@ -34,9 +36,15 @@
                         </div>
 
                         <div class="form-group">
-                            <button type="submit" class="submit-auth-btn">
+                            <button type="submit" class="btn-app submit-btn">
                                 注册
                             </button>
+
+                            <div class="pull-right">
+                                <a href="{{ route('login') }}" class="btn-app btn-link">
+                                    注册过了？
+                                </a>
+                            </div>
                         </div>
                     </form>
                 </div>

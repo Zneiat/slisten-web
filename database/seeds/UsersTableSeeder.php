@@ -20,6 +20,7 @@ class UsersTableSeeder extends Seeder
                 'remember_token' => null,
                 'created_at'     => '2017-11-29 21:35:00',
                 'updated_at'     => '2017-11-29 21:35:00',
+                'role'           => '20',
             ],
             1 => [
                 'id'             => 2,

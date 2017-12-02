@@ -28,4 +28,13 @@ class Comment extends Model
     {
         return $this->belongsTo(User::class);
     }
+    
+    public function getCommentDecryptedAttribute()
+    {
+        try {
+            return decrypt($this->comment);
+        } catch (\Exception $e) {
+            return $this->comment;
+        }
+    }
 }

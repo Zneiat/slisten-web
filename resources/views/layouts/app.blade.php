@@ -10,7 +10,11 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Slisten') }}</title>
+    @hasSection('title')
+        <title>@yield('title') - {{ config('app.name', 'Slisten') }}</title>
+    @else
+        <title>{{ config('app.name') }}</title>
+    @endif
 
     <!-- Styles -->
     <link href="{{ asset('css/app.min.css') }}" rel="stylesheet">
@@ -27,7 +31,7 @@
         <div class="loading-layer-text"></div>
     </div>
 
-    <div id="app">
+    <div class="app-body-wrap">
         <nav class="navbar navbar-app navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
@@ -50,9 +54,9 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         <li class="{{ nav_route_active_class('home') }}"><a href="{{ route('home') }}">首页</a></li>
-                        <li class="{{ nav_route_active_class('user_write') }}"><a href="{{ route('user_write') }}">写作</a></li>
-                        {{--<li class="{{ nav_route_active_class('home') }}"><a href="{{ route('home') }}">答复</a></li>
-                        <li class="{{ nav_route_active_class('login') }}"><a href="{{ route('home') }}">说明</a></li>--}}
+                        <li class="{{ nav_route_active_class('user_write') }}"><a href="{{ route('user_write') }}">倾诉</a></li>
+                        <li class="{{ nav_route_active_class('user_home') }}"><a href="{{ route('user_home') }}">答复</a></li>
+                        <li class=""><a href="#">说明</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -83,6 +87,9 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.min.js') }}"></script>
+    <script src="{{ asset('js/module.js') }}"></script>
+    <script src="{{ asset('js/hotkeys.js') }}"></script>
+    <script src="{{ asset('js/uploader.js') }}"></script>
     <script src="{{ asset('js/slisten.js') }}"></script>
     @stack('scripts')
 </body>
