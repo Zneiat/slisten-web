@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Slisten\Comment;
+use Slisten\Message;
 use Slisten\Post;
 
 class PostsTableSeeder extends Seeder
@@ -14,14 +15,15 @@ class PostsTableSeeder extends Seeder
     public function run()
     {
         for ($o = 0; $o < rand(10, 50); $o++) {
+            $faker = Faker\Factory::create();
             $userid = rand(1, 3);
             $post = new Post();
-            $post->content = encrypt(str_random(rand(300, 1000)));
+            $post->content = encrypt($faker->text(rand(300, 1000)));
             $post->user_id = $userid;
             if ($post->save()) {
                 for ($i = 0; $i < rand(0, 5); $i++) {
                     $comment = new Comment();
-                    $comment->comment = encrypt(str_random(rand(10, 40)));
+                    $comment->comment = encrypt($faker->text(rand(10, 40)));
                     $comment->post_id = $post->id;
                     $comment->user_id = $userid;
                     $comment->save();

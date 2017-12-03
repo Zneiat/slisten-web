@@ -8,7 +8,7 @@
                 <div class="col-md-4">
                     <a class="home-action-item-app" href="{{ route('user_write') }}">
                         <i class="zmdi zmdi-edit"></i>
-                        <span class="home-action-label">倾诉</span>
+                        <span class="home-action-label">写信</span>
                     </a>
                 </div>
                 <div class="col-md-4">

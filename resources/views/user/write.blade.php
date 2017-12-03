@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', '倾诉')
+@section('title', '写信')
 
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-10">
             <div class="panel panel-app">
-                <div class="panel-title-line"><span class="title">倾诉</span></div>
+                <div class="panel-title-line"><span class="title">写信</span></div>
 
                 <div class="panel-body">
                     <form class="write-form" method="POST" action="{{ route('user_write') }}" onsubmit="return false;" style="display: none;">
@@ -20,7 +20,7 @@
                         </div>
 
                         <div class="form-group">
-                            <button type="submit" class="btn-app submit-btn">提交</button>
+                            <button type="submit" class="btn-app submit-btn">投递</button>
                         </div>
                     </form>
                     <div class="write-form-loading">

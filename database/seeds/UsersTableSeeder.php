@@ -26,19 +26,21 @@ class UsersTableSeeder extends Seeder
                 'id'             => 2,
                 'name'           => 'zneiat',
                 'email'          => 'zneiat@example.com',
-                'password'       => bcrypt('12345678'),
+                'password'       => bcrypt('zneiat'),
                 'remember_token' => null,
                 'created_at'     => '2017-11-17 15:21:31',
                 'updated_at'     => '2017-11-17 15:21:31',
+                'role'           => '10',
             ],
             2 => [
                 'id'             => 3,
                 'name'           => 'qwqaq',
                 'email'          => 'qwqaq@example.com',
-                'password'       => bcrypt('12345678'),
+                'password'       => bcrypt('qwqaq'),
                 'remember_token' => null,
                 'created_at'     => '2017-11-11 11:42:11',
                 'updated_at'     => '2017-11-11 11:42:11',
+                'role'           => '10',
             ],
         ]);
     }

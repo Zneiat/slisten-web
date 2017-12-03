@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', '浏览')
+@section('title', '阅览 ID: ' . $post->id)
 
 @section('content')
 <div class="container">
@@ -9,12 +9,12 @@
             <div class="panel panel-app">
                 <div class="panel-body">
                     <div class="post-view">
-                        <div class="panel-title-line"><span class="title">正文 ID: {{ $post->id }}</span></div>
+                        <div class="panel-title-line"><span class="title">阅览 ID: {{ $post->id }}</span></div>
                         <div class="post-content">
                             {!! clean($post->contentDecrypted) !!}
                         </div>
                         <div class="post-content-bottom">
-                            <sapn class="post-sign">{{ $post->sign }} {{ $post->created_at }}</sapn>
+                            <sapn class="post-sign">{{ $post->getFullSign() }}</sapn>
                         </div>
                         <div class="post-comments">
                             <div class="panel-title-line"><span class="title">答复</span></div>

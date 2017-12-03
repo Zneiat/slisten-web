@@ -104,7 +104,7 @@ var app = {
                     console.log(json);
                     if (json['success']) {
                         _this.$loading.hide();
-                        _this.$success.find('.success-text').html('倾诉提交成功<br/>编号：' + json['post_id']);
+                        _this.$success.find('.success-text').html('信件投递成功<br/>编号：' + json['post_id']);
                         _this.$success.show();
                         _this.editor.setValue('');
                     } else {

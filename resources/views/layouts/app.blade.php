@@ -54,7 +54,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         <li class="{{ nav_route_active_class('home') }}"><a href="{{ route('home') }}">首页</a></li>
-                        <li class="{{ nav_route_active_class('user_write') }}"><a href="{{ route('user_write') }}">倾诉</a></li>
+                        <li class="{{ nav_route_active_class('user_write') }}"><a href="{{ route('user_write') }}">写信</a></li>
                         <li class="{{ nav_route_active_class('user_home') }}"><a href="{{ route('user_home') }}">答复</a></li>
                         <li class=""><a href="#">说明</a></li>
                     </ul>
