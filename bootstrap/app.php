@@ -52,4 +52,7 @@ $app->singleton(
 |
 */
 
+define('QWQ_PROJECT_LINK', 'https://github.com/Zneiat/slisten-web');
+define('QWQ_AUTHOR_LINK', 'https://github.com/Zneiat');
+
 return $app;

@@ -25,9 +25,10 @@
                                 </div>
                             </div>
                             <div class="comment-send">
-                                <form class="comment-send-form" method="POST" action="" onsubmit="return false;">
+                                <form class="comment-send-form" method="POST" action="{{ route('api_user_message_send') }}" onsubmit="return false;">
                                     <div class="form-group">
-                                        <textarea id="comment" name="comment" class="form-control" style="display: none;"></textarea>
+                                        <textarea id="content" name="content" class="form-control" style="display: none;"></textarea>
+                                        <input type="hidden" name="post_id" value="{{ $post->id }}" style="display: none;">
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn-app submit-btn">发送</button>

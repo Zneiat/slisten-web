@@ -27,7 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Post whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Post whereUserId($value)
  * @mixin \Eloquent
- * @property int $admin_has_read
+ * @property array $users_has_read
  * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Post whereAdminHasRead($value)
  */
 class Post extends Model
@@ -37,7 +37,7 @@ class Post extends Model
     
     protected $attributes = [
         'sign'           => '',
-        'admin_has_read' => 0,
+        'users_has_read' => '[]',
         'status'         => self::STATUS_DEFAULT,
         'type'           => self::TYPE_DEFAULT,
     ];
@@ -49,6 +49,10 @@ class Post extends Model
         'user_id',
         'status',
         'type',
+    ];
+    
+    protected $casts = [
+        'users_has_read' => 'json',
     ];
     
     /*public function status()
@@ -84,29 +88,52 @@ class Post extends Model
         return trim($fullSign);
     }
     
-    public function isAdminHasRead()
+    public function isHasRead()
     {
-        if ($this->admin_has_read === 1)
+        if (!\Auth::check())
+            return false;
+            
+        if (is_array($this->users_has_read) && in_array(\Auth::id(), $this->users_has_read))
             return true;
         
         return false;
     }
     
-    public function setAdminHasRead($hasRead = true)
+    public function setHasRead($hasRead = true)
     {
-        $hasRead = $hasRead ? 1 : 0;
-        if ($this->admin_has_read == $hasRead)
-            return true;
+        if (!\Auth::check())
+            return false;
         
-        $this->admin_has_read = $hasRead ? 1 : 0;
-        return $this->save();
+        $userId = \Auth::id();
+        
+        if ($hasRead) {
+            if ($this->isHasRead())
+                return true;
+            
+            $users = $this->users_has_read;
+            $users[] = $userId;
+            $this->users_has_read = $users;
+            
+            return $this->save();
+        } else {
+            if (!$this->isHasRead())
+                return true;
+    
+            $users = $this->users_has_read;
+            foreach ($users as $k => $v)
+                if ($v === $userId)
+                    unset($users[$k]);
+            $this->users_has_read = $users;
+            
+            return $this->save();
+        }
     }
     
     public function isMine()
     {
-        if ($this->user_id !== \Auth::id())
-            return false;
+        if ($this->user_id == \Auth::id())
+            return true;
         
-        return true;
+        return false;
     }
 }

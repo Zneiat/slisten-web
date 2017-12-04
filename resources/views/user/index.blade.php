@@ -12,7 +12,7 @@
                 <div class="panel-body">
                     <div class="post-list">
                         @foreach ($posts as $post)
-                            <div class="post-item{{ $isAdmin && $post->isAdminHasRead() ? ' admin-has-read' : '' }}" data-id="{{ $post->id }}">
+                            <div class="post-item{{ $isGod && $post->isHasRead() ? ' admin-has-read' : '' }}" data-id="{{ $post->id }}">
                                 <div class="post-short-content">
                                     {!! str_limit(strip_tags($post->contentDecrypted), $limit = 150, $end = '...') !!}
                                     <span class="post-sign">{{ $post->getFullSign() }}</span>
@@ -34,7 +34,7 @@
 @push('scripts')
     <script>
         $(document).ready(function () {
-            @if($isAdmin)
+            @if($isGod)
             $('.post-list .post-item .post-read-more-btn').click(function (e) {
                 $(e.target).parents('.post-item').addClass('admin-has-read');
             });

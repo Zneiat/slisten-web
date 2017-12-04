@@ -10,7 +10,7 @@
                 <div class="panel-title-line"><span class="title">写信</span></div>
 
                 <div class="panel-body">
-                    <form class="write-form" method="POST" action="{{ route('user_write') }}" onsubmit="return false;" style="display: none;">
+                    <form class="write-form" method="POST" action="{{ route('api_user_write') }}" onsubmit="return false;" style="display: none;">
                         <div class="form-group">
                             <textarea id="content" name="content" class="form-control" style="display: none;"></textarea>
                         </div>

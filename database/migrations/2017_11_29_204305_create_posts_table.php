@@ -19,7 +19,7 @@ class CreatePostsTable extends Migration
             $table->longText('sign');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('admin_has_read')->default(0)->unsigned();
+            $table->longText('users_has_read')->nullable();
             $table->integer('status')->unsigned();
             $table->integer('type')->unsigned();
             $table->timestamps();

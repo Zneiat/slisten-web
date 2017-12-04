@@ -17,9 +17,12 @@ Auth::routes();
 
 // 用户中心
 Route::group(['prefix' => '/user'], function () {
-    Route::get('/', 'UserController@index')->name('user_home');
-    Route::get('/write', 'UserController@showWriteForm')->name('user_write');
-    Route::post('/write', 'UserController@write');
-    Route::post('/sendMessage', 'UserController@sendMessage')->name('send_message');
-    Route::get('/post-view/{postId}', 'UserController@postView')->name('post_view')->where(['postId' => '[0-9]+']);
+    Route::get('/', 'User\UserController@index')->name('user_home');
+    Route::get('/write', 'User\UserController@writeForm')->name('user_write');
+    Route::get('/post-view/{postId}', 'User\UserController@postView')->name('post_view')->where(['postId' => '[0-9]+']);
+});
+
+Route::group(['prefix' => '/api/user'], function () {
+    Route::post('/write', 'User\UserApiController@write')->name('api_user_write');
+    Route::post('/messageSend', 'User\UserApiController@messageSend')->name('api_user_message_send');
 });

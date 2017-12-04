@@ -100,19 +100,21 @@ var app = {
                 },
 
                 dataType: "json",
-                success: function (json) {
-                    console.log(json);
-                    if (json['success']) {
+                success: function (obj) {
+                    console.log(obj);
+                    var resp = app.ajaxRespHandle(obj);
+                    var data = resp.checkGetData();
+                    if (!!data) {
                         _this.$loading.hide();
-                        _this.$success.find('.success-text').html('信件投递成功<br/>编号：' + json['post_id']);
+                        _this.$success.find('.success-text').html('信件投递成功<br/>编号：' + data['post_id']);
                         _this.$success.show();
                         _this.editor.setValue('');
                     } else {
                         _this.$loading.hide();
                         _this.$form.show();
-                        if (!!json['error_inputs']) {
-                            for (var name in json['error_inputs']) {
-                                $.notify.error(json['error_inputs'][name]);
+                        if (!!data['error_inputs']) {
+                            for (var name in data['error_inputs']) {
+                                $.notify.error(data['error_inputs'][name]);
                                 $(_this.$form.find('[name="' + name + '"]')).focus();
                             }
                         }
@@ -131,19 +133,23 @@ var app = {
 
     postViewPage: {
         init: function () {
+            this.initComments();
+        },
+
+        initComments: function () {
             this.$commentList = $('.comment-list');
             this.$commentListLoading = $('.comment-list-loading');
 
-            this.$commentSend = $('.send-comment');
-            this.$commentSendForm = $('.comment-send-form');
-            this.$commentSendInput = this.$commentSendForm.find('#comment');
-            this.$commentSendFormLoading = $('.comment-send-form-loading');
+            this.$commentSend = $('.comment-send');
+            this.$commentSendForm = this.$commentSend.find('.comment-send-form');
+            this.$commentSendInput = this.$commentSendForm.find('#content');
+            this.$commentSendFormLoading = this.$commentSend.find('.comment-send-form-loading');
 
-            this.editor = app.createEditor($('#comment'), 'editor-comment');
-            this.$commentSendForm.submit(this.onSubmitComment.bind(this));
+            this.commentSendEditor = app.createEditor($('#content'), 'comment-send-editor');
+            this.$commentSendForm.submit(this.onCommentSubmit.bind(this));
         },
 
-        onSubmitComment: function (e) {
+        onCommentSubmit: function (e) {
             var _this = this;
             var $form = $(e.target);
             var url = $form.attr('action'),
@@ -153,7 +159,7 @@ var app = {
             var contentVal = $.trim(_this.$commentSendInput.val());
             if (contentVal.length <= 0) {
                 $.notify.warning('内容不能为空');
-                _this.editor.focus();
+                _this.commentSendEditor.focus();
                 return false;
             }
 
@@ -168,19 +174,22 @@ var app = {
                 },
 
                 dataType: "json",
-                success: function (json) {
-                    console.log(json);
-                    if (json['success']) {
+                success: function (obj) {
+                    console.log(obj);
+                    var resp = app.ajaxRespHandle(obj);
+                    var data = resp.checkGetData();
+                    if (!!data) {
                         _this.$commentSendFormLoading.hide();
                         _this.$commentSendForm.show();
-                        _this.editor.setValue('');
+                        _this.commentSendEditor.setValue('');
+                        $.notify.success(resp.getMsg());
                     } else {
                         _this.$commentSendFormLoading.hide();
                         _this.$commentSendForm.show();
-                        if (!!json['error_inputs']) {
-                            for (var name in json['error_inputs']) {
-                                $.notify.error(json['error_inputs'][name]);
-                                $(_this.$form.find('[name="' + name + '"]')).focus();
+                        if (!!data['error_inputs']) {
+                            for (var name in data['error_inputs']) {
+                                $.notify.error(data['error_inputs'][name]);
+                                $(_this.$commentSendForm.find('[name="' + name + '"]')).focus();
                             }
                         }
                     }
@@ -194,6 +203,40 @@ var app = {
 
             return false;
         }
+    },
+
+    ajaxRespHandle: function (responseData) {
+        if (!responseData || typeof responseData !== 'object' || $.isEmptyObject(responseData)) {
+            app.notify.error('服务器响应数据格式错误');
+            return;
+        }
+
+        var obj = {};
+        obj.isSuccess = function () {
+            return !!responseData['success'];
+        };
+        obj.getMsg = function () {
+            return responseData['msg'] || '';
+        };
+        obj.checkGetData = function () {
+            if (obj.isSuccess()) {
+                return responseData['data'] || [];
+            } else {
+                $.notify.error(obj.getMsg());
+                return false;
+            }
+        };
+        obj.checkMakeNotify = function () {
+            if (obj.isSuccess()) {
+                $.notify.success(obj.getMsg());
+                return true;
+            } else {
+                $.notify.error(obj.getMsg());
+                return false;
+            }
+        };
+
+        return obj;
     }
 };
 
