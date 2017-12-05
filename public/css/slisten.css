@@ -317,6 +317,30 @@ label {
 .navbar-app {
     background-color: #FFF;
     border-bottom: 0;
+    box-shadow: 0 1px 0 0 #efefef;
+    margin-bottom: 10px;
+}
+
+.app-body-wrap.navbar-fixed {
+    margin-top: 60px;
+}
+
+.app-body-wrap.navbar-fixed .navbar-app {
+    margin-bottom: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    animation: navbarFixed .3s both;
+}
+
+@keyframes navbarFixed {
+    100% {
+         transform: translateY(0);
+    }
+
+    0% {
+         transform: translateY(-100%);
+    }
 }
 
 .navbar-app a {

@@ -2,13 +2,21 @@
 "use strict";
 
 $(document).ready(function () {
-    if (!app.checkRequirements())
-        return;
+    app.init();
 });
 
 var app = {
     PROJECT_LINK: 'https://github.com/Zneiat/slisten-web',
     AUTHOR_LINK: 'https://github.com/Zneiat',
+
+    init: function () {
+        if (!app.checkRequirements())
+            return;
+
+        this.$appWrap = $('.app-body-wrap');
+
+        this.navbar.init();
+    },
 
     // 检查浏览器是否满足运行需求
     checkRequirements: function () {
@@ -34,6 +42,47 @@ var app = {
 
         hide: function () {
             $(this._sel).hide();
+        }
+    },
+
+    navbar: {
+        init: function () {
+            this.$appWrap = app.$appWrap;
+            this.$navbar = this.$appWrap.find('.navbar-app');
+
+            var scrollFixedEnable = true;
+            for (var i in this.scrollFixedExcludedUrls) {
+                if (window.location.pathname === this.scrollFixedExcludedUrls[i]) {
+                    scrollFixedEnable = false;
+                    break;
+                }
+            }
+            if (scrollFixedEnable) {
+                this.setScrollFixed();
+            }
+        },
+
+        scrollFixedExcludedUrls: [
+            '/user/write'
+        ],
+
+        setScrollFixed: function () {
+            var hasScroll = false;
+            window.addEventListener('scroll', (function (event) {
+                if (hasScroll)
+                    return;
+
+                hasScroll = true;
+                var addingClass = 'navbar-fixed';
+                var scrollY = (window.pageYOffset || document.documentElement.scrollTop) - this.$navbar.height();
+                if (scrollY > 0) {
+                    this.$appWrap.addClass(addingClass);
+                } else {
+                    this.$appWrap.removeClass(addingClass);
+                }
+
+                hasScroll = false;
+            }).bind(this), false);
         }
     },
 
