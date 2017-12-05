@@ -183,6 +183,7 @@ var app = {
                         _this.$commentSendForm.show();
                         _this.commentSendEditor.setValue('');
                         $.notify.success(resp.getMsg());
+                        window.location.reload();
                     } else {
                         _this.$commentSendFormLoading.hide();
                         _this.$commentSendForm.show();
@@ -202,6 +203,30 @@ var app = {
             });
 
             return false;
+        },
+
+        commentsRender: function (commentsObj) {
+            for (var i in commentsObj) {
+                var comment = commentsObj[i];
+                var $commentItem = $(
+                    '<div class="comment-item">' +
+
+                    '<div class="comment-item-head">' +
+                    '<span class="author">' + comment['user_id'] + ' 说：</span>' +
+                    '</div>' +
+
+                    '<div class="comment-item-content">' +
+                    comment['comment'] +
+                    '</div>' +
+
+                    '</div>'
+                );
+
+                this.$commentList.find('.comment-items').append($commentItem);
+            }
+
+            this.$commentListLoading.hide();
+            this.$commentList.show();
         }
     },
 

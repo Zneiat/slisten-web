@@ -56,6 +56,10 @@
     <script>
         $(document).ready(function () {
             app.postViewPage.init();
+            app.postViewPage.commentsRender(JSON.parse($('#comments_json').html()));
         });
+    </script>
+    <script id="comments_json" type="application/json">
+        {!! $comments->toJson() !!}
     </script>
 @endpush

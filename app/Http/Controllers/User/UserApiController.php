@@ -79,7 +79,7 @@ class UserApiController extends UserControllerBase
         }
         
         $comment = new Comment();
-        $comment->comment = encrypt($this->inputs['content']);
+        $comment->comment = $this->inputs['content'];
         $comment->post_id = $post->id;
         $comment->user_id = $this->userId;
         

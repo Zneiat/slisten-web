@@ -41,13 +41,15 @@ class UserController extends UserControllerBase
         
         if (($post->user_id !== $this->userId) && (!$this->isGod))
             abort(403);
+    
+        $comments = Comment::query()->where(['user_id' => $this->userId, 'post_id' => $post->id])->get();
         
         if ($this->isGod) {
             // 标为已读
             $post->setHasRead();
         }
         
-        return view('user.post-view', ['post' => $post]);
+        return view('user.post-view', ['post' => $post, 'comments' => $comments]);
     }
     
     public function writeForm(Request $request)

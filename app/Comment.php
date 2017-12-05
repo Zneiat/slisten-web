@@ -28,8 +28,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $has_read
  * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Comment whereHasRead($value)
  */
-class Comment extends Model
+class Comment extends EncryptableModel
 {
+    protected $encryptable = [
+        'comment',
+    ];
+    
     const TYPE_DEFAULT = 10;
     
     protected $attributes = [
