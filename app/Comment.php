@@ -58,15 +58,6 @@ class Comment extends EncryptableModel
         return $this->belongsTo(User::class);
     }
     
-    public function getCommentDecryptedAttribute()
-    {
-        try {
-            return decrypt($this->comment);
-        } catch (\Exception $e) {
-            return $this->comment;
-        }
-    }
-    
     public function isHasRead()
     {
         if ($this->has_read === 1)

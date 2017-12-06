@@ -30,7 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property array $users_has_read
  * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Post whereAdminHasRead($value)
  */
-class Post extends Model
+class Post extends EncryptableModel
 {
     const STATUS_DEFAULT = 10;
     const TYPE_DEFAULT = 10;
@@ -55,6 +55,10 @@ class Post extends Model
         'users_has_read' => 'json',
     ];
     
+    protected $encryptable = [
+        'content',
+    ];
+    
     /*public function status()
     {
         return $this->belongsTo(Status::class);
@@ -68,15 +72,6 @@ class Post extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-    
-    public function getContentDecryptedAttribute()
-    {
-        try {
-            return decrypt($this->content);
-        } catch (\Exception $e) {
-            return $this->content;
-        }
     }
     
     public function getFullSign()

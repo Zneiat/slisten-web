@@ -5,7 +5,7 @@
 @section('content')
     <div class="container">
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-11">
             <div class="panel panel-app">
                 <div class="panel-title-line"><span class="title">答复</span></div>
 
@@ -14,8 +14,13 @@
                         @foreach ($posts as $post)
                             <div class="post-item{{ $isGod && $post->isHasRead() ? ' admin-has-read' : '' }}" data-id="{{ $post->id }}">
                                 <div class="post-short-content">
-                                    {!! str_limit(strip_tags($post->contentDecrypted), $limit = 150, $end = '...') !!}
-                                    <span class="post-sign">{{ $post->getFullSign() }}</span>
+                                    {!! str_limit(strip_tags($post->content), $limit = 150, $end = '...') !!}
+                                </div>
+                                <div class="post-info">
+                                    <div class="part-left">
+                                        <span class="post-date"><i class="zmdi zmdi-calendar"></i> {{ $post->created_at->toDateString() }}</span>
+                                        <span class="post-sign"><i class="zmdi zmdi-edit"></i> {{ $post->sign ? $post->sign : '匿名' }}</span>
+                                    </div>
                                 </div>
                                 <div class="post-actions">
                                     <a href="{{ route('post_view', ['id' => $post->id]) }}" target="_blank" class="btn-app post-read-more-btn">全文阅览</a>

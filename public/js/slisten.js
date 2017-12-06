@@ -74,7 +74,7 @@ var app = {
 
                 hasScroll = true;
                 var addingClass = 'navbar-fixed';
-                var scrollY = (window.pageYOffset || document.documentElement.scrollTop) - this.$navbar.height();
+                var scrollY = (window.pageYOffset || document.documentElement.scrollTop) - this.$navbar.outerHeight();
                 if (scrollY > 0) {
                     this.$appWrap.addClass(addingClass);
                 } else {
@@ -180,6 +180,10 @@ var app = {
         }
     },
 
+    userPage: {
+
+    },
+
     postViewPage: {
         init: function () {
             this.initComments();
@@ -187,6 +191,7 @@ var app = {
 
         initComments: function () {
             this.$commentList = $('.comment-list');
+            this.$commentItemsWrap = this.$commentList.find('.comment-items-wrap');
             this.$commentListLoading = $('.comment-list-loading');
 
             this.$commentSend = $('.comment-send');
@@ -254,28 +259,30 @@ var app = {
             return false;
         },
 
-        commentsRender: function (commentsObj) {
+        loadComments: function (commentsObj) {
             for (var i in commentsObj) {
-                var comment = commentsObj[i];
-                var $commentItem = $(
-                    '<div class="comment-item">' +
-
-                    '<div class="comment-item-head">' +
-                    '<span class="author">' + comment['user_id'] + ' 说：</span>' +
-                    '</div>' +
-
-                    '<div class="comment-item-content">' +
-                    comment['comment'] +
-                    '</div>' +
-
-                    '</div>'
-                );
-
-                this.$commentList.find('.comment-items').append($commentItem);
+                var item = this.commentItemRender(commentsObj[i]);
+                this.$commentItemsWrap.append(item);
             }
 
             this.$commentListLoading.hide();
             this.$commentList.show();
+        },
+
+        commentItemRender: function (comment) {
+            return $(
+                '<div class="comment-item">' +
+
+                '<div class="comment-item-head">' +
+                '<span class="author">' + comment.user_id + ' 说：</span>' +
+                '</div>' +
+
+                '<div class="comment-item-content">' +
+                comment.comment +
+                '</div>' +
+
+                '</div>'
+            );
         }
     },
 

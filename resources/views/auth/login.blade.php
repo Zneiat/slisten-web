@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
+    <div class="row auth-panel-wrap-app">
         <div class="col-md-4">
             <div class="panel panel-app">
                 <div class="panel-title-line"><span class="title">登录</span></div>

@@ -5,7 +5,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-11">
             <div class="panel panel-app">
                 <div class="panel-title-line"><span class="title">写信</span></div>
 
