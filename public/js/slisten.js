@@ -239,7 +239,7 @@ var app = {
                         $.notify.success(resp.getMsg());
 
                         var item = _this.commentItemRender({
-                            username: '作者',
+                            username: '我',
                             comment: contentVal
                         });
                         _this.$commentItemsWrap.append(item);
