@@ -47,7 +47,7 @@ class UserApiController extends UserControllerBase
         }
         
         $post = new Post();
-        $post->content = encrypt($this->inputs['content']);
+        $post->content = $this->inputs['content'];
         $post->sign = $this->inputs['sign'] ?? '';
         $post->user_id = $this->userId;
         
