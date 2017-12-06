@@ -42,7 +42,7 @@ class UserController extends UserControllerBase
         if (($post->user_id !== $this->userId) && (!$this->isGod))
             abort(403);
     
-        $comments = Comment::query()->where(['user_id' => $this->userId, 'post_id' => $post->id])->get();
+        $comments = Comment::query()->where(['post_id' => $post->id])->get();
         
         if ($this->isGod) {
             // 标为已读
