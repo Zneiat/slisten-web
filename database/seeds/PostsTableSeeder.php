@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Slisten\Comment;
-use Slisten\Message;
-use Slisten\Post;
+use App\Comment;
+use App\Message;
+use App\Post;
 
 class PostsTableSeeder extends Seeder
 {

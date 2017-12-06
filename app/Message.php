@@ -1,13 +1,13 @@
 <?php
 
-namespace Slisten;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Slisten\Message
+ * App\Message
  *
- * @property-read \Slisten\Comment $comment
+ * @property-read \App\Comment $comment
  * @mixin \Eloquent
  * @property int $id
  * @property int $comment_id
@@ -16,13 +16,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $type
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Message whereCommentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Message whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Message whereFromUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Message whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Message whereToUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Message whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Message whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereCommentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereFromUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereToUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereUpdatedAt($value)
  */
 class Message extends Model
 {

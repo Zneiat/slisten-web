@@ -591,7 +591,7 @@ label {
     color: #FFF;
 }
 
-.post-list .post-item.admin-has-read .post-actions:after {
+.post-list .post-item.has-read .post-actions:after {
     content: '\f26b';
     font-family: 'Material-Design-Iconic-Font';
     display: inline-block;
@@ -630,7 +630,6 @@ label {
 .post-view .post-comments .comment-list {
     padding-bottom: 10px;
     margin-bottom: 10px;
-    background: #FBFBFB;
 }
 
 .post-view .post-comments .comment-send {}

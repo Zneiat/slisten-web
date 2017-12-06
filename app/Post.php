@@ -1,11 +1,11 @@
 <?php
 
-namespace Slisten;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Slisten\Post
+ * App\Post
  *
  * @property int $id
  * @property string $content
@@ -15,20 +15,20 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $type
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\Slisten\Comment[] $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
  * @property-read mixed $content_decrypted
- * @property-read \Slisten\User $user
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Post whereContent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Post whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Post whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Post whereSign($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Post whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Post whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Post whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Post whereUserId($value)
+ * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereSign($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereUserId($value)
  * @mixin \Eloquent
  * @property array $users_has_read
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Post whereAdminHasRead($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereAdminHasRead($value)
  */
 class Post extends EncryptableModel
 {
@@ -57,6 +57,10 @@ class Post extends EncryptableModel
     
     protected $encryptable = [
         'content',
+    ];
+    
+    protected $hidden = [
+        'user'
     ];
     
     /*public function status()
@@ -94,12 +98,10 @@ class Post extends EncryptableModel
         return false;
     }
     
-    public function setHasRead($hasRead = true)
+    public function setHasRead($userId, $hasRead = true)
     {
         if (!\Auth::check())
             return false;
-        
-        $userId = \Auth::id();
         
         if ($hasRead) {
             if ($this->isHasRead())
@@ -115,10 +117,12 @@ class Post extends EncryptableModel
                 return true;
     
             $users = $this->users_has_read;
-            foreach ($users as $k => $v)
-                if ($v === $userId)
-                    unset($users[$k]);
-            $this->users_has_read = $users;
+            $after = [];
+            foreach ($users as $id) {
+                if ($id !== $userId)
+                    $after[] = $id;
+            }
+            $this->users_has_read = $after;
             
             return $this->save();
         }

@@ -1,11 +1,11 @@
 <?php
 
-namespace Slisten;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Slisten\Comment
+ * App\Comment
  *
  * @property int $id
  * @property string $comment
@@ -15,18 +15,18 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property-read mixed $comment_decrypted
- * @property-read \Slisten\Post $post
- * @property-read \Slisten\User $user
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Comment whereComment($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Comment whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Comment whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Comment wherePostId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Comment whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Comment whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Comment whereUserId($value)
+ * @property-read \App\Post $post
+ * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereComment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment wherePostId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereUserId($value)
  * @mixin \Eloquent
  * @property int $has_read
- * @method static \Illuminate\Database\Eloquent\Builder|\Slisten\Comment whereHasRead($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereHasRead($value)
  */
 class Comment extends EncryptableModel
 {
@@ -39,6 +39,10 @@ class Comment extends EncryptableModel
     protected $attributes = [
         'has_read' => 0,
         'type'     => self::TYPE_DEFAULT,
+    ];
+    
+    protected $hidden = [
+        'user'
     ];
     
     protected $fillable = [
@@ -73,6 +77,34 @@ class Comment extends EncryptableModel
             return true;
         
         $this->has_read = $hasRead;
+        
         return $this->save();
+    }
+    
+    protected $appends = [
+        'is_mine',
+        'username'
+    ];
+    
+    public function getIsMineAttribute()
+    {
+        if (!\Auth::check())
+            return false;
+        
+        if ($this->user_id == \Auth::id())
+            return true;
+        
+        return false;
+    }
+    
+    public function getUsernameAttribute()
+    {
+        if ($this->user->matchRole([User::ROLE_ADMIN, User::ROLE_GOD])) {
+            return $this->user->name;
+        } else if ($this->user_id === $this->post->user_id) {
+            return '作者';
+        } else {
+            return '未知';
+        }
     }
 }

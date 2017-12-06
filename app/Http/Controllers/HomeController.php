@@ -1,10 +1,10 @@
 <?php
 
-namespace Slisten\Http\Controllers;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Slisten\Comment;
-use Slisten\Post;
+use App\Comment;
+use App\Post;
 
 class HomeController extends Controller
 {

@@ -1,18 +1,17 @@
 <?php
 
-namespace Slisten\Http\Controllers\User;
+namespace App\Http\Controllers\User;
 
 use Auth;
-use Slisten\Http\Controllers\Controller;
-use Slisten\User;
+use App\Http\Controllers\Controller;
+use App\User;
 
 class UserControllerBase extends Controller
 {
     /** @var User|null */
     protected $user;
     protected $userId;
-    protected $isAdmin;
-    protected $isGod;
+    protected $userHavePower;
     
     public function __construct()
     {
@@ -20,8 +19,7 @@ class UserControllerBase extends Controller
         $this->middleware(function ($request, $next) {
             $this->user = Auth::user();
             $this->userId = $this->user->id;
-            $this->isAdmin = $this->user->matchRole([User::ROLE_ADMIN]);
-            $this->isGod = $this->user->matchRole([User::ROLE_GOD]);
+            $this->userHavePower = $this->user->matchRole([User::ROLE_ADMIN, User::ROLE_GOD]);
             
             return $next($request);
         });

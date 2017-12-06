@@ -1,13 +1,14 @@
 <?php
 
-namespace Slisten\Http\Controllers\User;
+namespace App\Http\Controllers\User;
 
 use Auth;
-use Slisten\Comment;
-use Slisten\Post;
+use App\Comment;
+use App\Post;
+use function foo\func;
 use Validator;
 use Illuminate\Http\Request;
-use Slisten\User;
+use App\User;
 
 class UserApiController extends UserControllerBase
 {
@@ -74,7 +75,7 @@ class UserApiController extends UserControllerBase
     
         /** @var Post $post */
         $post = Post::query()->where(['id' => $this->inputs['post_id']])->first();
-        if (!$post || (!$post->isMine() && !$this->isGod)) {
+        if (!$post || (!$post->isMine() && !$this->userHavePower)) {
             return $this->error('信件源未找到，也许已被删除');
         }
         
@@ -84,6 +85,16 @@ class UserApiController extends UserControllerBase
         $comment->user_id = $this->userId;
         
         if ($comment->save()) {
+            if ($this->user->matchRole([User::ROLE_ADMIN, User::ROLE_GOD])) { // 我是管理员
+                $post->setHasRead($post->user_id, false); // 发信人 标记未读
+            } else if ($this->userId === $post->user_id) { // 我是发信人
+                User::all()->each(function (User $item, $key) use ($post) {
+                    if ($item->matchRole([User::ROLE_ADMIN, User::ROLE_GOD])) {
+                        $post->setHasRead($item->id, false); // 管理员 标记未读
+                    }
+                });
+            }
+                
             return $this->success('已成功发送', [
                 'comment_id' => $comment->id,
             ]);

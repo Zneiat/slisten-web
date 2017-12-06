@@ -1,8 +1,8 @@
 <?php
 
-namespace Slisten\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
-use Slisten\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 

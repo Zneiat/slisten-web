@@ -31,7 +31,7 @@
             "database/factories"
         ],
         "psr-4": {
-            "Slisten\\": "app/"
+            "App\\": "app/"
         },
         "files": [
             "app/Http/Helpers.php"

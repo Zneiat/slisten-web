@@ -1,13 +1,13 @@
 <?php
 
-namespace Slisten\Http\Controllers\User;
+namespace App\Http\Controllers\User;
 
-use Slisten\Comment;
-use Slisten\User;
+use App\Comment;
+use App\User;
 use Validator;
 use Auth;
 use Illuminate\Http\Request;
-use Slisten\Post;
+use App\Post;
 
 class UserController extends UserControllerBase
 {
@@ -20,14 +20,13 @@ class UserController extends UserControllerBase
     {
         $posts = Post::query();
         
-        if (!$this->isGod)
+        if (!$this->userHavePower)
             $posts = $posts->where(['user_id' => $this->userId]);
         
         $posts = $posts->latest()->paginate(15);
         
         return view('user.index', [
-            'posts' => $posts,
-            'isGod' => $this->isGod,
+            'posts' => $posts
         ]);
     }
     
@@ -39,15 +38,13 @@ class UserController extends UserControllerBase
         if (!$post)
             abort(404);
         
-        if (($post->user_id !== $this->userId) && (!$this->isGod))
+        if (($post->user_id !== $this->userId) && (!$this->userHavePower))
             abort(403);
     
         $comments = Comment::query()->where(['post_id' => $post->id])->get();
-        
-        if ($this->isGod) {
-            // 标为已读
-            $post->setHasRead();
-        }
+    
+        // 标为已读
+        $post->setHasRead($this->userId, true);
         
         return view('user.post-view', ['post' => $post, 'comments' => $comments]);
     }
